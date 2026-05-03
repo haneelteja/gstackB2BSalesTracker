@@ -246,10 +246,10 @@ export default async function DashboardPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-5 pb-4 space-y-3">
-                {pendingMessages.map((msg: { id: string; channel: string; subject?: string | null; body: string; leads?: { company_name: string } | null }) => (
+                {pendingMessages.map((msg: { id: string; channel: string; subject?: string | null; body: string; leads?: { company_name: string }[] | null }) => (
                   <div key={msg.id} className="text-xs space-y-0.5">
                     <p className="font-medium text-foreground">
-                      {(msg.leads as { company_name: string } | null)?.company_name ?? 'Lead'}
+                      {msg.leads?.[0]?.company_name ?? 'Lead'}
                     </p>
                     <p className="text-muted-foreground line-clamp-1">
                       {msg.subject ?? msg.body}
