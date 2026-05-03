@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/dashboard/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import type { Profile } from '@/types'
@@ -9,14 +9,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  let { data: profile } = await supabase
+  // Use service role for profile operations so RLS never blocks this critical path
+  const admin = await createServiceClient()
+  let { data: profile } = await admin
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
 
   if (!profile) {
-    const { data: created } = await supabase
+    const { data: created } = await admin
       .from('profiles')
       .insert({
         id: user.id,
