@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -19,7 +18,6 @@ const features = [
 ]
 
 export default function RegisterPage() {
-  const router = useRouter()
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -46,12 +44,12 @@ export default function RegisterPage() {
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
     if (signInError) {
       toast.success('Account created! Please sign in.')
-      router.push('/login')
+      window.location.assign('/login')
       return
     }
 
     toast.success('Welcome to SalesStack!')
-    router.push('/dashboard')
+    window.location.assign('/dashboard')
   }
 
   return (
