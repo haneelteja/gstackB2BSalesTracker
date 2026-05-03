@@ -50,9 +50,12 @@ export function Sidebar({ profile }: SidebarProps) {
     .slice(0, 2)
 
   return (
-    <aside className="w-64 min-h-screen flex flex-col bg-sidebar border-r border-sidebar-border">
+    <aside
+      className="w-64 min-h-screen flex flex-col bg-sidebar border-r border-sidebar-border"
+      style={{ backgroundColor: 'var(--sidebar)', color: 'var(--sidebar-foreground)', borderColor: 'var(--sidebar-border)' }}
+    >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-sidebar-border">
+      <div className="flex items-center gap-3 px-6 py-5 border-b border-sidebar-border" style={{ borderColor: 'var(--sidebar-border)' }}>
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
           <Zap className="w-4 h-4 text-primary-foreground" />
         </div>
@@ -109,7 +112,7 @@ export function Sidebar({ profile }: SidebarProps) {
       </nav>
 
       {/* User */}
-      <div className="px-3 py-4 border-t border-sidebar-border space-y-1">
+      <div className="px-3 py-4 border-t border-sidebar-border space-y-1" style={{ borderColor: 'var(--sidebar-border)' }}>
         <Link href="/settings" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all">
           <Settings className="w-4 h-4" />
           <span>Settings</span>

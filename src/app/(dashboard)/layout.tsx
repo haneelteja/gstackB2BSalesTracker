@@ -9,11 +9,25 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
+  let { data: profile } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
+
+  if (!profile) {
+    const { data: created } = await supabase
+      .from('profiles')
+      .insert({
+        id: user.id,
+        email: user.email!,
+        full_name: user.user_metadata?.full_name ?? user.email!.split('@')[0],
+        role: (user.user_metadata?.role as 'manager' | 'rep') ?? 'rep',
+      })
+      .select()
+      .single()
+    profile = created
+  }
 
   if (!profile) redirect('/login')
 
