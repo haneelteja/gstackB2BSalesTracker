@@ -25,12 +25,22 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
+  function redirectWithSession(to: string) {
+    const url = request.nextUrl.clone()
+    url.pathname = to
+    const response = NextResponse.redirect(url)
+    supabaseResponse.cookies.getAll().forEach(({ name, value, ...opts }) =>
+      response.cookies.set(name, value, opts as Parameters<typeof response.cookies.set>[2])
+    )
+    return response
+  }
+
   if (!user && !pathname.startsWith('/login') && !pathname.startsWith('/register') && pathname !== '/') {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return redirectWithSession('/login')
   }
 
   if (user && (pathname === '/login' || pathname === '/register' || pathname === '/')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    return redirectWithSession('/dashboard')
   }
 
   return supabaseResponse
