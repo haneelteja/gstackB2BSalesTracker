@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -23,6 +24,14 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [role, setRole] = useState<'manager' | 'rep'>('manager')
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.replace('/dashboard')
+    })
+  }, [router])
 
   async function handleRegister(e: React.SyntheticEvent) {
     e.preventDefault()

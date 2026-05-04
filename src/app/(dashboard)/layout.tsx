@@ -31,7 +31,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
     profile = created
   }
 
-  if (!profile) redirect('/login')
+  if (!profile) {
+    // Profile creation failed but user IS authenticated — use metadata fallback
+    // Redirecting to /login here would cause an infinite loop with the middleware
+    profile = {
+      id: user.id,
+      email: user.email!,
+      full_name: user.user_metadata?.full_name ?? user.email!.split('@')[0],
+      role: (user.user_metadata?.role as 'manager' | 'rep') ?? 'rep',
+      created_at: new Date().toISOString(),
+    }
+  }
 
   return (
     <div className="flex min-h-screen bg-background">

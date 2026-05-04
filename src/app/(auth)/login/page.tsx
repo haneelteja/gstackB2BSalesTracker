@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Zap, Loader2, Brain, Target, Mail, TrendingUp, Eye, EyeOff } from 'lucide-react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const features = [
   { icon: Brain, label: 'AI product research & positioning' },
@@ -22,12 +23,17 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.replace('/dashboard')
+    })
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
     }
-  }, [])
+  }, [router])
 
   function togglePasswordVisibility() {
     if (showPassword) {

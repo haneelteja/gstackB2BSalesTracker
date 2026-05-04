@@ -35,12 +35,10 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
-  if (!user && !pathname.startsWith('/login') && !pathname.startsWith('/register') && pathname !== '/') {
-    return redirectWithSession('/login')
-  }
+  const isPublicPath = pathname.startsWith('/login') || pathname.startsWith('/register') || pathname === '/'
 
-  if (user && (pathname === '/login' || pathname === '/register' || pathname === '/')) {
-    return redirectWithSession('/dashboard')
+  if (!user && !isPublicPath) {
+    return redirectWithSession('/login')
   }
 
   return supabaseResponse
