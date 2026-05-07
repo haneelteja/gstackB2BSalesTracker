@@ -17,7 +17,7 @@ export default async function TrackingPage({ params }: { params: Promise<{ id: s
     .from('leads')
     .select('id, company_name, contact_name, status, qualification_score, interactions(*), messages(id, channel, status, sent_at, opened_at, replied_at)')
     .eq('product_id', id)
-    .not('status', 'in', '("new")')
+    .neq('status', 'new')
     .order('updated_at', { ascending: false })
 
   return (

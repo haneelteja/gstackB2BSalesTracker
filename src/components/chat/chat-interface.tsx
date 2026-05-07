@@ -24,6 +24,9 @@ interface ChatInterfaceProps {
   isComplete?: boolean
   onComplete?: () => void
   placeholder?: string
+  initialPrompt?: string
+  emptyStateTitle?: string
+  emptyStateDescription?: string
 }
 
 export function ChatInterface({
@@ -36,6 +39,9 @@ export function ChatInterface({
   isComplete: initialComplete = false,
   onComplete,
   placeholder = 'Add your thoughts, corrections, or ask questions...',
+  initialPrompt,
+  emptyStateTitle,
+  emptyStateDescription,
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
@@ -56,7 +62,14 @@ export function ChatInterface({
   async function startSession() {
     setLoading(true)
     setStreaming(true)
-    const userMsg = 'Please start by sharing your research and initial recommendations for this product.'
+    const defaultPrompts: Record<ProductStep, string> = {
+      research: 'Please start by sharing your research and initial recommendations for this product.',
+      leads: 'Please provide specific lead generation strategies and search queries for finding ideal customers for this product.',
+      qualification: 'Please outline a qualification scoring framework (0-100) tailored to this product and its ideal customer profile.',
+      outreach: 'Please draft compelling email and WhatsApp message templates for this product, along with subject line recommendations.',
+      tracking: 'Please suggest key metrics to track and what follow-up triggers to watch for in this sales pipeline.',
+    }
+    const userMsg = initialPrompt ?? defaultPrompts[step]
 
     try {
       const res = await fetch('/api/ai/chat', {
@@ -212,13 +225,15 @@ export function ChatInterface({
             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
               <Bot className="w-8 h-8 text-primary" />
             </div>
-            <h3 className="font-semibold text-foreground mb-2">Start the AI Research Session</h3>
+            <h3 className="font-semibold text-foreground mb-2">
+              {emptyStateTitle ?? `Start the ${stepLabel} Session`}
+            </h3>
             <p className="text-sm text-muted-foreground max-w-sm mb-6">
-              The AI will research your product, propose target segments, positioning, and outreach strategy. You&apos;ll discuss and agree on a final profile together.
+              {emptyStateDescription ?? `Your AI collaborator will provide tailored recommendations for ${productName}. Review, refine, and save the final output together.`}
             </p>
             <Button onClick={startSession} disabled={loading} className="gap-2 bg-primary hover:bg-primary/90">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-              Begin AI Research
+              Begin {stepLabel}
             </Button>
           </div>
         )}
