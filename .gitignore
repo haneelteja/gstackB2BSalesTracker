@@ -2,6 +2,11 @@
 
 # dependencies
 /node_modules
+
+# Bun-only: do not commit other package managers' lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 /.pnp
 .pnp.*
 .yarn/*
@@ -23,6 +28,7 @@
 # misc
 .DS_Store
 *.pem
+.snapshots/
 
 # debug
 npm-debug.log*
@@ -32,6 +38,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
