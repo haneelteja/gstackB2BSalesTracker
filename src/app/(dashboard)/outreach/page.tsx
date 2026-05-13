@@ -211,7 +211,7 @@ export default function OutreachOverviewPage() {
                 <Mail className="w-7 h-7 mx-auto mb-2 opacity-30" />
                 <p className="text-sm">No {tab} messages</p>
                 {tab === 'pending' && (
-                  <p className="text-xs mt-1 opacity-70">Go to a product's Outreach tab to compose messages</p>
+                  <p className="text-xs mt-1 opacity-70">Go to a product&apos;s Outreach tab to compose messages</p>
                 )}
               </div>
             ) : (
@@ -271,7 +271,7 @@ export default function OutreachOverviewPage() {
         <div className="text-center py-16 text-muted-foreground">
           <Mail className="w-8 h-8 mx-auto mb-2 opacity-30" />
           <p className="text-sm font-medium">No messages yet</p>
-          <p className="text-xs mt-1 opacity-70">Go to a product's Outreach tab to compose messages</p>
+          <p className="text-xs mt-1 opacity-70">Go to a product&apos;s Outreach tab to compose messages</p>
         </div>
       )}
 

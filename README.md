@@ -18,6 +18,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Vercel
+
+The build can succeed even when Supabase env vars are missing; **middleware still needs them at runtime**. In the Vercel project, set **Production** and **Preview**:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` **or** `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (new Supabase publishable key)
+- `SUPABASE_SERVICE_ROLE_KEY` (service role JWT or new secret key)
+- Plus `ANTHROPIC_API_KEY`, `RESEND_*`, etc. as in [`.env.example`](./.env.example)
+
+Then **Redeploy**. If the app shows a config error, the message lists which variables are missing.
+
 ## Scripts
 
 | Command       | Description        |
