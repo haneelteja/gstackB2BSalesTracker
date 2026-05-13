@@ -115,7 +115,7 @@ export default function RegisterPage() {
             <p className="text-muted-foreground mt-1.5">Set up your sales workspace in minutes</p>
           </div>
 
-          <form onSubmit={handleRegister} className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-4" autoComplete="on">
             <div className="space-y-1.5">
               <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
               <Input
@@ -124,6 +124,7 @@ export default function RegisterPage() {
                 value={fullName}
                 onChange={e => setFullName(e.target.value)}
                 required
+                autoComplete="name"
                 className="h-11 text-sm"
               />
             </div>
@@ -136,6 +137,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
+                autoComplete="email"
                 className="h-11 text-sm"
               />
             </div>
@@ -149,6 +151,7 @@ export default function RegisterPage() {
                 onChange={e => setPassword(e.target.value)}
                 required
                 minLength={6}
+                autoComplete="new-password"
                 className="h-11 text-sm"
               />
             </div>

@@ -113,7 +113,7 @@ export default function LoginPage() {
             <p className="text-muted-foreground mt-1.5">Sign in to your sales workspace</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-5" autoComplete="on">
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
               <Input
@@ -123,6 +123,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
+                autoComplete="email"
                 className="h-11 text-sm"
               />
             </div>
@@ -136,6 +137,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
+                  autoComplete="current-password"
                   className="h-11 text-sm pr-11"
                 />
                 <button
