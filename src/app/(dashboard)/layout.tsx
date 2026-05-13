@@ -31,6 +31,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
     profile = created
   }
 
+  // Signup stores role in user_metadata; auth trigger may still create `rep` in edge cases.
+  // RLS for `products` requires `profiles.role = 'manager'` — keep DB aligned with metadata.
+  const metaRole = user.user_metadata?.role as 'manager' | 'rep' | undefined
+  if (profile && metaRole === 'manager' && profile.role !== 'manager') {
+    const { data: fixed } = await admin
+      .from('profiles')
+      .update({ role: 'manager' })
+      .eq('id', user.id)
+      .select()
+      .single()
+    if (fixed) profile = fixed
+  }
+
   if (!profile) {
     // Profile creation failed but user IS authenticated — use metadata fallback
     // Redirecting to /login here would cause an infinite loop with the middleware

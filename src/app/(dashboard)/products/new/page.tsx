@@ -37,7 +37,7 @@ export default function NewProductPage() {
       .single()
 
     if (error) {
-      toast.error('Failed to create product')
+      toast.error(error.message || 'Failed to create product')
       setLoading(false)
       return
     }
